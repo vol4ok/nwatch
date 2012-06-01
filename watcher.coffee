@@ -38,9 +38,12 @@ hook.on '*::add', (data) ->
   
 hook.on '*::remove', (data) ->
   console.log "#{@event} -> #{data}".cyan
+  delete dirs[data]
+  console.log dirs
   
 hook.on '*::list', (data) ->
   console.log "#{@event} -> #{data}".cyan
+  console.log dirs
   
 forever.startServer(child)
 hook.listen()
