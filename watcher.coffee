@@ -1,14 +1,18 @@
 require 'colors'
-forever = require("forever")
+
 $ = {}
 $ extends require 'path'
 $ extends require 'fs'
 
+forever = require("forever")
+hookio  = require('hook.io')
+hook = hookio.createHook name: 'server', silent: yes
+
 ROOT = '/Volumes/RAM'
 dirs = {}
 
-dirs[$.realpathSync(__dirname)] = $.join(__dirname, 'example.coffee')
-console.log dirs
+#dirs[$.realpathSync(__dirname)] = $.join(__dirname, 'example.coffee')
+#console.log dirs 
 
 child = forever.start ["ruby", "#{__dirname}/fswatch.rb", ROOT],
   max:    10
@@ -26,5 +30,17 @@ child.on "stdout", (data) =>
 
 child.on "stderr", (data) ->
   console.error data.toString()
-
+  
+hook.on '*::add', (data) ->
+  console.log "#{@event} -> #{data}".cyan
+  dirs extends data
+  console.log data
+  
+hook.on '*::remove', (data) ->
+  console.log "#{@event} -> #{data}".cyan
+  
+hook.on '*::list', (data) ->
+  console.log "#{@event} -> #{data}".cyan
+  
 forever.startServer(child)
+hook.listen()
