@@ -3,6 +3,7 @@ require 'colors'
 $ = {}
 $ extends require 'path'
 $ extends require 'fs'
+$ extends require 'util'
 
 forever = require("forever")
 hookio  = require('hook.io')
@@ -36,14 +37,16 @@ hook.on '*::add', (data) ->
   dirs extends data
   console.log data
   
-hook.on '*::remove', (data) ->
+hook.on '*::rm', (data) ->
   console.log "#{@event} -> #{data}".cyan
   delete dirs[data]
   console.log dirs
   
-hook.on '*::list', (data) ->
-  console.log "#{@event} -> #{data}".cyan
-  console.log dirs
+hook.on '*::ls', ->
+  console.log "#{@event}".cyan
+  console.log $.inspect(dirs, false, null, true)
+  hook.emit('ls-result', dirs)
+  return dirs
   
 forever.startServer(child)
-hook.listen()
+hook.start()
