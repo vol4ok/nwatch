@@ -27,14 +27,19 @@ if cmd
           usage()
         else
           arg1 = $.realpathSync(process.argv[3])
-          hook.emit('remove', arg1)
+          hook.emit('rm', arg1)
       when 'ls'
         hook.emit('ls')
-        hook.on '*::ls-result', (data) ->
-          console.log 'Dir list:\n', $.inspect(data, false, null, true)
-          hook.stop -> process.exit(0)
-        return
+        
+  hook.on '*::print', (data) ->
+    console.log '\nWatch list:'.cyan
+    for k,v of data
+      continue if k is 'prototype'
+      console.log " * #{k.green}: #{v.magenta}"
+    console.log ""
     hook.stop -> process.exit(0)
+    
+  
     
   hook.start()
 else

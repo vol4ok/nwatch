@@ -33,20 +33,18 @@ child.on "stderr", (data) ->
   console.error data.toString()
   
 hook.on '*::add', (data) ->
-  console.log "#{@event} -> #{data}".cyan
+  console.log "#{@event} (#{$.inspect(data, false, null, true)})".cyan
   dirs extends data
-  console.log data
+  hook.emit('print', dirs)
   
 hook.on '*::rm', (data) ->
-  console.log "#{@event} -> #{data}".cyan
+  console.log "#{@event} (#{data.green})".cyan
   delete dirs[data]
-  console.log dirs
+  hook.emit('print', dirs)
   
 hook.on '*::ls', ->
   console.log "#{@event}".cyan
-  console.log $.inspect(dirs, false, null, true)
-  hook.emit('ls-result', dirs)
-  return dirs
+  hook.emit('print', dirs)
   
 forever.startServer(child)
 hook.start()
