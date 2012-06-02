@@ -59,7 +59,6 @@ if cmd is 'server'
     server(process.argv[3])
 else if cmd
   hook = hookio.createHook name: 'client', silent: yes
-  
   hook.on 'hook::ready', ->
     switch cmd
       when 'add'
@@ -82,7 +81,6 @@ else if cmd
       else
         usage()
         process.exit(0)
-        
   hook.on '*::print', (data) ->
     console.log '\nWatch list:'.cyan
     for k,v of data
@@ -90,7 +88,6 @@ else if cmd
       console.log " * #{k.green}: #{v.magenta}"
     console.log ""
     hook.stop -> process.exit(0)
-    
   hook.start()
 else
   usage()
