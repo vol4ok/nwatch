@@ -15,6 +15,8 @@ __extends($, require('util'));
 
 hookio = require('hook.io');
 
+require('coffee-script');
+
 usage = function() {
   return console.log('Usage: nwatch [add|rm|ls|server]');
 };
