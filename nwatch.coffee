@@ -22,10 +22,11 @@ server = (root) ->
   child.on "stdout", (data) =>
     data = data.toString().trim()
     try
-      path = JSON.parse("[" + data.replace(/\]\[/g, ",").replace(/[\[\]]/g, "") + "]")
-      path = $.realpathSync(path.toString())
-      console.log path.green
-      require(dirs[path])() if dirs[path]
+      paths = JSON.parse("[" + data.replace(/\]\[/g, ",").replace(/[\[\]]/g, "") + "]")
+      for path in paths
+        path = $.realpathSync(path.toString())
+        console.log path.green
+        require(dirs[path])() if dirs[path]
     catch error
       console.error error.toString().red
 

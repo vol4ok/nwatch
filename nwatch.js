@@ -34,15 +34,22 @@ server = function(root) {
     silent: true
   });
   child.on("stdout", function(data) {
-    var path;
+    var path, paths, _i, _len, _results;
     data = data.toString().trim();
     try {
-      path = JSON.parse("[" + data.replace(/\]\[/g, ",").replace(/[\[\]]/g, "") + "]");
-      path = $.realpathSync(path.toString());
-      console.log(path.green);
-      if (dirs[path]) {
-        return require(dirs[path])();
+      paths = JSON.parse("[" + data.replace(/\]\[/g, ",").replace(/[\[\]]/g, "") + "]");
+      _results = [];
+      for (_i = 0, _len = paths.length; _i < _len; _i++) {
+        path = paths[_i];
+        path = $.realpathSync(path.toString());
+        console.log(path.green);
+        if (dirs[path]) {
+          _results.push(require(dirs[path])());
+        } else {
+          _results.push(void 0);
+        }
       }
+      return _results;
     } catch (error) {
       return console.error(error.toString().red);
     }
