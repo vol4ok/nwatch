@@ -5,7 +5,8 @@ $ extends require 'path'
 $ extends require 'fs'
 $ extends require 'util'
 
-hookio  = require('hook.io')
+hookio = require('hook.io')
+require('coffee-script')
 
 usage = -> console.log 'Usage: nwatch [add|rm|ls|server]'
 
