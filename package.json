@@ -1,7 +1,7 @@
 {
   "author": "vol4ok <hello@vol4ok.net>",
   "name": "nwatcher",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "repository": {
     "type": "git",
     "url": "git://github.com/vol4ok/nwatch.git"
@@ -10,10 +10,10 @@
     "nwatch": "./nwatch"
   },
   "dependencies": {
+    "core.js": ">=0.2.1",
     "colors": ">=0.6",
     "forever": ">=0.9.1",
-    "hook.io": ">=0.8.10",
-    "coffee-script": ">=1.3.3"
+    "hook.io": ">=0.8.10"
   },
   "devDependencies": {},
   "optionalDependencies": {},
